@@ -163,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         MqttMessage message = new MqttMessage();
+        message.setQos(2); // Quality of Service (garanteed delivery - exactly once).
         try {
             message.setPayload(formatMessage(location).getBytes());
             mqttAndroidClient.publish(publishTopic, message);
@@ -185,8 +186,15 @@ public class MainActivity extends AppCompatActivity {
         JSONObject json = new JSONObject();
         json.put("timestamp", timestamp);
         json.put("vehicle_id", vehicle_id);
-        json.put("lon", lon);
-        json.put("lat", lat);
+        json.put("mission_id", 1);
+        json.put("driver_id", "sergey");
+        json.put("vehicle_type", "suv");
+
+        JSONObject loc = new JSONObject();
+        loc.put("lon", lon);
+        loc.put("lat", lat);
+
+        json.put("location", loc);
         return json.toString();
     }
 }
